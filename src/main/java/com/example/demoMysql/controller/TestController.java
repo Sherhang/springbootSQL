@@ -7,11 +7,7 @@ import com.example.demoMysql.dao.StudentEntityMapper;
 import com.example.demoMysql.service.DemoMysqlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod; // RequestMethod.GET
-import org.springframework.web.bind.annotation.RestController;
-
-import org.springframework.web.bind.annotation.PathVariable; // @PathVariable
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -73,9 +69,10 @@ public class TestController {
         System.out.println("ret = " + ret);//本地打印
         return ret;
     }
+
     //查询表内所有数据
     @RequestMapping("selectAll")
-    public String selectAll(){
+    public String selectAll() {
         return demoMysqlService.selectAll();
     }
 
@@ -87,17 +84,23 @@ public class TestController {
 
     //添加一条数据
     @RequestMapping(path = "insertData/{json_str}", method = RequestMethod.POST) //POST只能用postman,不能用浏览器
-    public boolean insertData(@PathVariable String json_str){
+    public boolean insertData(@PathVariable String json_str) {
         return demoMysqlService.insertData(json_str);
     }
 
     //更新一条数据
     @RequestMapping(path = "updateData/{json_str}", method = RequestMethod.POST)
-    public  boolean updateData(@PathVariable String json_str){
+    public boolean updateData(@PathVariable String json_str) {
         return demoMysqlService.updateData(json_str);
     }
 
     //分页查询
+    @RequestMapping(path = "/getStudentEntityListByPage", method = RequestMethod.POST)
+    public String getStudentEntityListByPage(@RequestParam int page_num, @RequestParam int page_size) {
+        List<StudentEntity> ret = demoMysqlService.getStudentEntityListByPage(page_num, page_size);
+        Gson gson = new Gson();
+        return gson.toJson(ret);
 
+    }
 }
 

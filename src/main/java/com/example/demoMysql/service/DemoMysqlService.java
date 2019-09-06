@@ -2,6 +2,9 @@
 
 package com.example.demoMysql.service;
 
+import com.example.demoMysql.DemoMysqlApplication;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.example.demoMysql.bean.StudentEntity;
 import com.example.demoMysql.bean.StudentEntityExample;
 import com.example.demoMysql.dao.StudentEntityMapper;
@@ -113,4 +116,13 @@ public class DemoMysqlService {
         System.out.println("updateData ret = " + ret);
         return true;
     }
+
+    //分页查询student
+    public List<StudentEntity> getStudentEntityListByPage(int page_num, int page_size){
+        PageHelper.startPage(page_num, page_size);
+        StudentEntityExample studentEntityExample = new StudentEntityExample();
+        List<StudentEntity> ret = studentEntityMapper.selectByExample(studentEntityExample);
+        return ret;
+    }
+
 }
